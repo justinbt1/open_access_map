@@ -21,3 +21,6 @@ def retrieve_national_trust_data():
             'query?outFields=*&where=1%3D1&f=geojson'
     
     retrieve_geojson(link, 'national_trust_oa.geojson')
+
+if __name__ == '__main__':
+    retrieve_national_trust_data()
