@@ -4,4 +4,4 @@ help:
 
 .PHONY: download_data
 download_data:
-	python src/get_data.py
+	python src/download_data.py
