@@ -2,5 +2,6 @@
 help:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
-.PHONY: get_data
-setup: set_env_vars conda-update
+.PHONY: download_data
+download_data:
+	python src/get_data.py
