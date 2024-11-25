@@ -1,11 +1,12 @@
 import os
+import yaml
 import zipfile
 import requests
 import pandas as pd
 import geopandas as gp
 
 
-def retrieve_geojson(dataset_url, filename):
+def _retrieve_geojson(dataset_url, filename):
     """Download and write to GeoJSON file to disk.
 
     Args:
@@ -20,41 +21,20 @@ def retrieve_geojson(dataset_url, filename):
         file.write(content)
 
 
-def retrieve_defra_crow_data():
+def arcgis_api_data():
     """Downloads DEFRA CRoW open access land data.
     """
-    link = 'https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/CRoW_' \
-    'Act_2000_Access_Layer/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson'
+    with open('data_urls.yaml', 'rt') as config_file:
+        config = yaml.safe_load(config_file)
 
-    retrieve_geojson(link, 'defra_crow_oa.geojson')
-
-
-def retrieve_national_trust_data():
-    """Downloads National Trust always open land data
-
-    This includes land open due to CRoW or permission from the NT (2023).
-
-    """
-    link = 'https://services-eu1.arcgis.com/NPIbx47lsIiu2pqz/arcgis/rest/services/' \
-    'National_Trust_Open_Data_Land_Always_Open/FeatureServer/0/query?outFields=*&' \
-    'where=1%3D1&f=geojson'
-
-    retrieve_geojson(link, 'national_trust_oa.geojson')
+    for dataset in config:
+        params = config[dataset]
+        _retrieve_geojson(params['url'], params['filename'])
 
 
 def retrieve_right_of_way_data():
     # ToDo: Add public right of way data from all local authorities.
     pass
-
-
-def retrieve_local_authority_polygons():
-    """Download local authority polygons from ONS Open Geography Portal.
-    """
-    link = 'https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/' \
-    'LAU1_Dec_2015_GCB_in_England_and_Wales_2022/FeatureServer/0/query?outFields' \
-    '=*&where=1%3D1&f=geojson'
-
-    retrieve_geojson(link, 'local_authority_boundaries.geojson')
 
 
 def _prepare_postcode_data():
@@ -101,8 +81,5 @@ def retrieve_postcode_data():
 
 
 if __name__ == '__main__':
-    retrieve_defra_crow_data()
-    retrieve_national_trust_data()
-    retrieve_right_of_way_data()
-    retrieve_local_authority_polygons()
+    arcgis_api_data()
     retrieve_postcode_data()
