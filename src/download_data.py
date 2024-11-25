@@ -5,6 +5,9 @@ import requests
 import pandas as pd
 import geopandas as gp
 
+with open('src/data_urls.yaml', 'rt') as config_file:
+    config = yaml.safe_load(config_file)
+
 
 def _retrieve_geojson(dataset_url, filename):
     """Download and write to GeoJSON file to disk.
@@ -24,8 +27,6 @@ def _retrieve_geojson(dataset_url, filename):
 def arcgis_api_data():
     """Downloads DEFRA CRoW open access land data.
     """
-    with open('data_urls.yaml', 'rt') as config_file:
-        config = yaml.safe_load(config_file)
 
     for dataset in config:
         params = config[dataset]
