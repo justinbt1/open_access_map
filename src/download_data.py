@@ -48,6 +48,8 @@ def retrieve_right_of_way_data():
 
 
 def retrieve_local_authority_polygons():
+    """Download local authority polygons from ONS Open Geography Portal.
+    """
     link = 'https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/' \
     'LAU1_Dec_2015_GCB_in_England_and_Wales_2022/FeatureServer/0/query?outFields' \
     '=*&where=1%3D1&f=geojson'
@@ -55,7 +57,9 @@ def retrieve_local_authority_polygons():
     retrieve_geojson(link, 'local_authority_boundaries.geojson')
 
 
-def prepare_postcode_data():
+def _prepare_postcode_data():
+    """Loads all postcode CSV and extracts and saves postcodes and coordinates.
+    """
     df = pd.read_csv(
         'data/ons_postcode_data/Data/ONSPD_FEB_2023_UK.csv',
         low_memory=False
@@ -77,6 +81,8 @@ def prepare_postcode_data():
 
 
 def retrieve_postcode_data():
+    """Downloads ONS postcode data from ONS Open Geography Portal.
+    """
     url = 'https://www.arcgis.com/sharing/rest/content/items/a2f8c9c5778a452bbf6' \
     '40d98c166657c/data'
 
@@ -90,7 +96,7 @@ def retrieve_postcode_data():
         extraction_path = os.path.join('data', 'ons_postcode_data')
         zip_ref.extractall(extraction_path)
 
-    prepare_postcode_data()
+    _prepare_postcode_data()
     os.remove(filepath)
 
 
