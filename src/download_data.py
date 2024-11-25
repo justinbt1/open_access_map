@@ -35,12 +35,14 @@ def retrieve_right_of_way_data():
 
 
 def retrieve_local_authority_polygons():
-    pass
+    link = 'https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/' \
+    'LAU1_Dec_2015_GCB_in_England_and_Wales_2022/FeatureServer/0/query?outFields' \
+    '=*&where=1%3D1&f=geojson'
+    retrieve_geojson(link, 'local_authority_boundaries.geojson')
 
 
 def retrieve_postcode_polygons():
-    pass
-
+    'https://www.arcgis.com/sharing/rest/content/items/a2f8c9c5778a452bbf640d98c166657c/data'
 
 if __name__ == '__main__':
     retrieve_defra_crow_data()
