@@ -4,6 +4,13 @@ import requests
 
 
 def retrieve_geojson(dataset_url, filename):
+    """Download and write to GeoJSON file to disk.
+
+    Args:
+        dataset_url(str): URL to get GeoJSON file from.
+        filename(str): Filename to save GeoJSON to in data dir.
+
+    """
     content = requests.get(dataset_url).text
 
     output_filepath = os.path.join('data', filename)
@@ -32,6 +39,7 @@ def retrieve_national_trust_data():
 
 
 def retrieve_right_of_way_data():
+    # ToDo: Add public right of way data from all local authorities.
     pass
 
 
@@ -45,11 +53,11 @@ def retrieve_local_authority_polygons():
 def retrieve_postcode_data():
     url = 'https://www.arcgis.com/sharing/rest/content/items/a2f8c9c5778a452bbf6' \
     '40d98c166657c/data'
-    #response = requests.get(url)
+    response = requests.get(url)
     filepath = os.path.join('data', 'ons_postcode_data.zip')
 
-    #with open(filepath, mode="wb") as file:
-    #    file.write(response.content)
+    with open(filepath, mode="wb") as file:
+        file.write(response.content)
 
     with zipfile.ZipFile(filepath, 'r') as zip_ref:
         extraction_path = os.path.join('data', 'ons_postcode_data')
@@ -59,4 +67,4 @@ def retrieve_postcode_data():
 
 
 if __name__ == '__main__':
-    retrieve_postcode_data()
+    retrieve_local_authority_polygons()
