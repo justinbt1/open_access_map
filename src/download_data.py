@@ -45,14 +45,17 @@ def retrieve_local_authority_polygons():
 def retrieve_postcode_data():
     url = 'https://www.arcgis.com/sharing/rest/content/items/a2f8c9c5778a452bbf6' \
     '40d98c166657c/data'
-    response = requests.get(url)
+    #response = requests.get(url)
     filepath = os.path.join('data', 'ons_postcode_data.zip')
 
-    with open(filepath, mode="wb") as file:
-        file.write(response.content)
+    #with open(filepath, mode="wb") as file:
+    #    file.write(response.content)
 
     with zipfile.ZipFile(filepath, 'r') as zip_ref:
-        zip_ref.extractall('ons_postcode_data')
+        extraction_path = os.path.join('data', 'ons_postcode_data')
+        zip_ref.extractall(extraction_path)
+
+    os.remove(filepath)
 
 
 if __name__ == '__main__':
