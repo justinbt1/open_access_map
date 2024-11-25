@@ -1,4 +1,5 @@
 import os
+import zipfile
 import requests
 
 
@@ -41,9 +42,18 @@ def retrieve_local_authority_polygons():
     retrieve_geojson(link, 'local_authority_boundaries.geojson')
 
 
-def retrieve_postcode_polygons():
-    'https://www.arcgis.com/sharing/rest/content/items/a2f8c9c5778a452bbf640d98c166657c/data'
+def retrieve_postcode_data():
+    url = 'https://www.arcgis.com/sharing/rest/content/items/a2f8c9c5778a452bbf6' \
+    '40d98c166657c/data'
+    response = requests.get(url)
+    filepath = os.path.join('data', 'ons_postcode_data.zip')
+
+    with open(filepath, mode="wb") as file:
+        file.write(response.content)
+
+    with zipfile.ZipFile(filepath, 'r') as zip_ref:
+        zip_ref.extractall('ons_postcode_data')
+
 
 if __name__ == '__main__':
-    retrieve_defra_crow_data()
-    retrieve_national_trust_data()
+    retrieve_postcode_data()
