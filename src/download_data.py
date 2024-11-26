@@ -9,28 +9,17 @@ with open('src/data_urls.yaml', 'rt') as config_file:
     config = yaml.safe_load(config_file)
 
 
-def _retrieve_geojson(dataset_url, filename):
-    """Download and write to GeoJSON file to disk.
-
-    Args:
-        dataset_url(str): URL to get GeoJSON file from.
-        filename(str): Filename to save GeoJSON to in data dir.
-
+def retrieve_arcgis_api_data():
+    """Download datasets from ArcGIS API and write to GeoJSON file.
     """
-    content = requests.get(dataset_url).text
-
-    output_filepath = os.path.join('data', filename)
-    with open(output_filepath, 'wt') as file:
-        file.write(content)
-
-
-def arcgis_api_data():
-    """Downloads DEFRA CRoW open access land data.
-    """
-
     for dataset in config:
-        params = config[dataset]
-        _retrieve_geojson(params['url'], params['filename'])
+        url = config[dataset]['url']
+        filename = config[dataset]['filename']
+        content = requests.get(url).text
+
+        output_filepath = os.path.join('data', filename)
+        with open(output_filepath, 'wt') as file:
+            file.write(content)
 
 
 def retrieve_right_of_way_data():
@@ -82,5 +71,5 @@ def retrieve_postcode_data():
 
 
 if __name__ == '__main__':
-    arcgis_api_data()
+    retrieve_arcgis_api_data()
     retrieve_postcode_data()
