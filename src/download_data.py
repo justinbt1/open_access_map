@@ -35,8 +35,8 @@ def _prepare_postcode_data():
         low_memory=False
     )
 
-    # Filter to England postcodes only.
-    df = df.loc[df['ctry'] == 'E92000001']
+    england_ctry_code = 'E92000001'
+    df = df.loc[df['ctry'] == england_ctry_code]
     df = df[['pcd', 'pcd2', 'pcds', 'lat', 'long']]
     df = df.reindex()
 
