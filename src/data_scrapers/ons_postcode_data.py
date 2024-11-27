@@ -1,30 +1,9 @@
 import os
-import yaml
+import click
 import zipfile
 import requests
 import pandas as pd
 import geopandas as gp
-
-with open('src/data_urls.yaml', 'rt') as config_file:
-    config = yaml.safe_load(config_file)
-
-
-def retrieve_arcgis_api_data():
-    """Download datasets from ArcGIS API and write to GeoJSON file.
-    """
-    for dataset in config:
-        url = config[dataset]['url']
-        filename = config[dataset]['filename']
-        content = requests.get(url).text
-
-        output_filepath = os.path.join('data', filename)
-        with open(output_filepath, 'wt') as file:
-            file.write(content)
-
-
-def retrieve_right_of_way_data():
-    # ToDo: Add public right of way data from all local authorities.
-    pass
 
 
 def _prepare_postcode_data():
@@ -50,12 +29,11 @@ def _prepare_postcode_data():
     gdf.to_file(filepath, driver="GeoJSON")
 
 
-def retrieve_postcode_data():
+@click.command()
+@click.argument('url')
+def retrieve_postcode_data(url):
     """Downloads ONS postcode data from ONS Open Geography Portal.
     """
-    url = 'https://www.arcgis.com/sharing/rest/content/items/a2f8c9c5778a452bbf6' \
-    '40d98c166657c/data'
-
     response = requests.get(url)
     filepath = os.path.join('data', 'ons_postcode_data.zip')
 
@@ -71,5 +49,4 @@ def retrieve_postcode_data():
 
 
 if __name__ == '__main__':
-    retrieve_arcgis_api_data()
     retrieve_postcode_data()
