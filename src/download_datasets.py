@@ -6,6 +6,24 @@ import pandas as pd
 import geopandas as gp
 
 
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
+@click.argument('name')
+@click.argument('url')
+def retrieve_arcgis_api_data(name, url):
+    """Download datasets from ArcGIS API and write to GeoJSON file.
+    """
+    content = requests.get(url).text
+
+    output_filepath = os.path.join('data', f'{name}.geojson')
+    with open(output_filepath, 'wt') as file:
+        file.write(content)
+
+
 def _prepare_postcode_data():
     """Loads all postcode CSV and extracts and saves postcodes and coordinates.
     """
@@ -29,7 +47,7 @@ def _prepare_postcode_data():
     gdf.to_file(filepath, driver="GeoJSON")
 
 
-@click.command()
+@cli.command()
 @click.argument('url')
 def retrieve_postcode_data(url):
     """Downloads ONS postcode data from ONS Open Geography Portal.
@@ -49,4 +67,4 @@ def retrieve_postcode_data(url):
 
 
 if __name__ == '__main__':
-    retrieve_postcode_data()
+    cli()
