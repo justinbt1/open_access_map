@@ -16,6 +16,11 @@ def cli():
 @click.argument('url')
 def retrieve_arcgis_api_data(name, url):
     """Download datasets from ArcGIS API and write to GeoJSON file.
+
+    Args:
+        name(str): Filename of file to save dataset to. 
+        url(str): ArcGIS API URL.
+
     """
     content = requests.get(url).text
 
@@ -51,6 +56,10 @@ def _prepare_postcode_data():
 @click.argument('url')
 def retrieve_postcode_data(url):
     """Downloads ONS postcode data from ONS Open Geography Portal.
+
+    Args:
+        url(str): ONS OGP postcode directory URL.
+
     """
     response = requests.get(url)
     filepath = os.path.join('data', 'ons_postcode_data.zip')
@@ -68,3 +77,4 @@ def retrieve_postcode_data(url):
 
 if __name__ == '__main__':
     cli()
+g
