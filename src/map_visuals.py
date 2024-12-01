@@ -9,6 +9,9 @@ def load_data():
     la_boundary_gdf = gp.read_file('data/local_authority_boundaries.geojson')
     crow_gdf = gp.read_file('data/defra_crow_oa.geojson')
 
+    # Filter to only English local authority boundaries.
+    la_boundary_gdf = la_boundary_gdf.loc[la_boundary_gdf['lau115cd'].str[0] == 'E']
+
     return la_boundary_gdf, crow_gdf
 
 
@@ -53,7 +56,9 @@ def plot_map(la_boundary, crow, la_name):
     fig.set_figheight(15)
     fig.set_figwidth(15)
 
-    fig.savefig(f'outputs/map_crow_{la_name}.png')
+    ax.set_axis_off()
+
+    fig.savefig(f'outputs/map_crow_{la_name}.png', bbox_inches='tight')
 
 
 @click.command()
