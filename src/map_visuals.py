@@ -4,6 +4,8 @@ from matplotlib import pyplot as plt
 
 
 def load_data():
+    """Load polygon data from disk.
+    """
     la_boundary_gdf = gp.read_file('data/local_authority_boundaries.geojson')
     crow_gdf = gp.read_file('data/defra_crow_oa.geojson')
 
@@ -11,6 +13,14 @@ def load_data():
 
 
 def intersect(la_boundary_gdf, crow_gdf, local_authority):
+    """Find area of CROW polygons that intersect local authorities.
+
+    Args:
+        la_boundary_gdf: Geopandas local authority boundary dataframe.
+        crow_gdf: Geopandas CROW open access dataframe.
+        local_authority(str): Name of loacl authority.
+
+    """
     la_boundary_gdf = la_boundary_gdf.loc[
         la_boundary_gdf['lau115nm'] == local_authority
     ]
