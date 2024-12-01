@@ -6,3 +6,5 @@ To download and prepare government open access datasets used in this project, ru
 ```bash
 make download_data
 ```
+### CRoW Act Open Access Land Map
+![](https://github.com/justinbt1/open_access_map/blob/main/outputs/map_crow_la_all.png?raw=true)
