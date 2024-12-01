@@ -77,4 +77,3 @@ def retrieve_postcode_data(url):
 
 if __name__ == '__main__':
     cli()
-g

@@ -18,7 +18,7 @@ def intersect(la_boundary_gdf, crow_gdf, local_authority):
     Args:
         la_boundary_gdf: Geopandas local authority boundary dataframe.
         crow_gdf: Geopandas CROW open access dataframe.
-        local_authority(str): Name of loacl authority.
+        local_authority(str): Name of local authority.
 
     """
     la_boundary_gdf = la_boundary_gdf.loc[
@@ -37,6 +37,14 @@ def intersect(la_boundary_gdf, crow_gdf, local_authority):
 
 
 def plot_map(la_boundary, crow, la_name):
+    """Plot local authority polgon(s) with CROW data overlayed.
+
+    Args:
+        la_boundary_gdf: Geopandas local authority boundary dataframe.
+        crow_gdf: Geopandas CROW open access dataframe.
+        local_authority(str): Name of local authority.
+
+    """
     fig, ax = plt.subplots()
 
     la_boundary.plot(ax=ax, color='grey')
@@ -51,6 +59,12 @@ def plot_map(la_boundary, crow, la_name):
 @click.command()
 @click.argument('local_authority', required=False)
 def plot_vis(local_authority):
+    """Plot local authority map.
+
+    Args:
+        local_authority(str): Name of local authority.
+
+    """
     la_boundary, crow = load_data()
 
     if local_authority:
