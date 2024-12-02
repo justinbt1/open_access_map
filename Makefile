@@ -12,3 +12,7 @@ download_data:
 	@python src/download_datasets.py retrieve-arcgis-api-data "local_authority_boundaries" "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/LAU1_Dec_2015_GCB_in_England_and_Wales_2022/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson"
 	@echo Downloading ONS Geo Portal Postcodes dataset...
 	@python src/download_datasets.py retrieve-postcode-data "https://www.arcgis.com/sharing/rest/content/items/a2f8c9c5778a452bbf640d98c166657c/data"
+
+.PHONY: plot_access_map
+plot_access_map:
+	@python src/map_visuals.py $(local_authority)
