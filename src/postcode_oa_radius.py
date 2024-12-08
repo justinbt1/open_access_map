@@ -8,7 +8,7 @@ def calculate_postcode_oa():
     postcode_gdf['geometry'] = postcode_gdf['geometry'].buffer(1000)
 
     intersection_gdf = gp.overlay(
-        postcode_gdf,
+        postcode_gdf.head(),
         crow_gdf,
         how="intersection"
     )
