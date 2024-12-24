@@ -4,6 +4,7 @@ help:
 
 .PHONY: download_data
 download_data:
+	mkdir data
 	@echo Downloading DEFRA CROW Open Access Land dataset...
 	@python src/download_datasets.py retrieve-arcgis-api-data "defra_crow_oa" "https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/CRoW_Act_2000_Access_Layer/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson"
 	@echo Downloading National Trust Always Open Access Land dataset...
