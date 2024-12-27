@@ -1,19 +1,11 @@
 import os
-import click
+import yaml
 import zipfile
 import requests
 import pandas as pd
 import geopandas as gp
 
 
-@click.group()
-def cli():
-    pass
-
-
-@cli.command()
-@click.argument('name')
-@click.argument('url')
 def retrieve_arcgis_api_data(name, url):
     """Download datasets from ArcGIS API and write to GeoJSON file.
 
@@ -52,8 +44,6 @@ def _prepare_postcode_data():
     gdf.to_file(filepath, driver="GeoJSON")
 
 
-@cli.command()
-@click.argument('url')
 def retrieve_postcode_data(url):
     """Downloads ONS postcode data from ONS Open Geography Portal.
 
@@ -75,5 +65,15 @@ def retrieve_postcode_data(url):
     os.remove(filepath)
 
 
+def download_all_data():
+    with open(os.path.join('src', 'api_config.yaml')) as file:
+        config = yaml.safe_load(file)
+
+    for url, name in zip(config['arcgis_api']['urls'], config['arcgis_api']['names']):
+        retrieve_arcgis_api_data(name, url)
+
+    retrieve_postcode_data(config['ons_postcodes']['url'])
+
+
 if __name__ == '__main__':
-    cli()
+    download_all_data()
