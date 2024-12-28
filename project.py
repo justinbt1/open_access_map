@@ -1,7 +1,7 @@
 import pathlib
 import subprocess
 import click
-import src
+from src.download_datasets import download_all_data
 
 
 @click.group()
@@ -20,7 +20,7 @@ def setup():
 
 @cli.command()
 def download_data():
-    src.download_datasets.download_all_data()
+    download_all_data()
 
 
 if __name__ == '__main__':

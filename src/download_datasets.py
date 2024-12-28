@@ -70,8 +70,10 @@ def download_all_data():
         config = yaml.safe_load(file)
 
     for url, name in zip(config['arcgis_api']['urls'], config['arcgis_api']['names']):
+        print(f'Downloading data from {url}')
         retrieve_arcgis_api_data(name, url)
 
+    print('Downloading ONS postcode data.')
     retrieve_postcode_data(config['ons_postcodes']['url'])
 
 
