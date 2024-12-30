@@ -15,11 +15,10 @@ def calculate_postcode_oa():
         postcode_gdf = postcode_gdf['geometry'].buffer(meter_radius)
 
         print('Calculating intersections')
-        intersection_gdf = gp.sjoin(
+        intersection_gdf = gp.overlay(
             postcode_gdf,
             crow_gdf,
-            how='left',
-            predicate='intersects'
+            how='intersection'
         )
 
         print(intersection_gdf.area.to_list())
